@@ -11,7 +11,15 @@ public class PronounceDTO implements Serializable {
 
     private Long id;
 
+    private String firstName;
+
+    private String lastName;
+
     private String preferredName;
+
+    private String country;
+
+    private String language;
 
     @Lob
     private byte[] pronunciation;
@@ -26,12 +34,44 @@ public class PronounceDTO implements Serializable {
         this.id = id;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPreferredName() {
         return preferredName;
     }
 
     public void setPreferredName(String preferredName) {
         this.preferredName = preferredName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public byte[] getPronunciation() {
@@ -76,7 +116,11 @@ public class PronounceDTO implements Serializable {
     public String toString() {
         return "PronounceDTO{" +
             "id=" + getId() +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
             ", preferredName='" + getPreferredName() + "'" +
+            ", country='" + getCountry() + "'" +
+            ", language='" + getLanguage() + "'" +
             ", pronunciation='" + getPronunciation() + "'" +
             "}";
     }

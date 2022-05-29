@@ -21,7 +21,11 @@ describe('Pronounce Service', () => {
 
     elemDefault = {
       id: 0,
+      firstName: 'AAAAAAA',
+      lastName: 'AAAAAAA',
       preferredName: 'AAAAAAA',
+      country: 'AAAAAAA',
+      language: 'AAAAAAA',
       pronunciationContentType: 'image/png',
       pronunciation: 'AAAAAAA',
     };
@@ -59,7 +63,11 @@ describe('Pronounce Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          firstName: 'BBBBBB',
+          lastName: 'BBBBBB',
           preferredName: 'BBBBBB',
+          country: 'BBBBBB',
+          language: 'BBBBBB',
           pronunciation: 'BBBBBB',
         },
         elemDefault
@@ -75,7 +83,14 @@ describe('Pronounce Service', () => {
     });
 
     it('should partial update a Pronounce', () => {
-      const patchObject = Object.assign({}, new Pronounce());
+      const patchObject = Object.assign(
+        {
+          preferredName: 'BBBBBB',
+          country: 'BBBBBB',
+          language: 'BBBBBB',
+        },
+        new Pronounce()
+      );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -92,7 +107,11 @@ describe('Pronounce Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          firstName: 'BBBBBB',
+          lastName: 'BBBBBB',
           preferredName: 'BBBBBB',
+          country: 'BBBBBB',
+          language: 'BBBBBB',
           pronunciation: 'BBBBBB',
         },
         elemDefault
@@ -145,7 +164,7 @@ describe('Pronounce Service', () => {
       });
 
       it('should add only unique Pronounce to an array', () => {
-        const pronounceArray: IPronounce[] = [{ id: 123 }, { id: 456 }, { id: 91282 }];
+        const pronounceArray: IPronounce[] = [{ id: 123 }, { id: 456 }, { id: 88741 }];
         const pronounceCollection: IPronounce[] = [{ id: 123 }];
         expectedResult = service.addPronounceToCollectionIfMissing(pronounceCollection, ...pronounceArray);
         expect(expectedResult).toHaveLength(3);

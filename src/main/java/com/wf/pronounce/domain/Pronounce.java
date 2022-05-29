@@ -18,8 +18,20 @@ public class Pronounce implements Serializable {
     @Column("id")
     private Long id;
 
+    @Column("first_name")
+    private String firstName;
+
+    @Column("last_name")
+    private String lastName;
+
     @Column("preferred_name")
     private String preferredName;
+
+    @Column("country")
+    private String country;
+
+    @Column("language")
+    private String language;
 
     @Column("pronunciation")
     private byte[] pronunciation;
@@ -42,6 +54,32 @@ public class Pronounce implements Serializable {
         this.id = id;
     }
 
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public Pronounce firstName(String firstName) {
+        this.setFirstName(firstName);
+        return this;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public Pronounce lastName(String lastName) {
+        this.setLastName(lastName);
+        return this;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPreferredName() {
         return this.preferredName;
     }
@@ -53,6 +91,32 @@ public class Pronounce implements Serializable {
 
     public void setPreferredName(String preferredName) {
         this.preferredName = preferredName;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public Pronounce country(String country) {
+        this.setCountry(country);
+        return this;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getLanguage() {
+        return this.language;
+    }
+
+    public Pronounce language(String language) {
+        this.setLanguage(language);
+        return this;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public byte[] getPronunciation() {
@@ -105,7 +169,11 @@ public class Pronounce implements Serializable {
     public String toString() {
         return "Pronounce{" +
             "id=" + getId() +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
             ", preferredName='" + getPreferredName() + "'" +
+            ", country='" + getCountry() + "'" +
+            ", language='" + getLanguage() + "'" +
             ", pronunciation='" + getPronunciation() + "'" +
             ", pronunciationContentType='" + getPronunciationContentType() + "'" +
             "}";

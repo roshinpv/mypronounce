@@ -17,7 +17,7 @@
     >
       <fa-icon icon="bars"></fa-icon>
     </a>
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
+    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null" >
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
@@ -43,7 +43,7 @@
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-            <li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
               <a
                 class="dropdown-item"
                 routerLink="pronounce"

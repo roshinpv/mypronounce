@@ -25,7 +25,11 @@ public class PronounceRowMapper implements BiFunction<Row, String, Pronounce> {
     public Pronounce apply(Row row, String prefix) {
         Pronounce entity = new Pronounce();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
+        entity.setFirstName(converter.fromRow(row, prefix + "_first_name", String.class));
+        entity.setLastName(converter.fromRow(row, prefix + "_last_name", String.class));
         entity.setPreferredName(converter.fromRow(row, prefix + "_preferred_name", String.class));
+        entity.setCountry(converter.fromRow(row, prefix + "_country", String.class));
+        entity.setLanguage(converter.fromRow(row, prefix + "_language", String.class));
         entity.setPronunciationContentType(converter.fromRow(row, prefix + "_pronunciation_content_type", String.class));
         entity.setPronunciation(converter.fromRow(row, prefix + "_pronunciation", byte[].class));
         return entity;

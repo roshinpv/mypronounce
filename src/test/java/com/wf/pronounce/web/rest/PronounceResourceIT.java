@@ -35,8 +35,20 @@ import org.springframework.util.Base64Utils;
 @WithMockUser
 class PronounceResourceIT {
 
+    private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_PREFERRED_NAME = "AAAAAAAAAA";
     private static final String UPDATED_PREFERRED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_COUNTRY = "AAAAAAAAAA";
+    private static final String UPDATED_COUNTRY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LANGUAGE = "AAAAAAAAAA";
+    private static final String UPDATED_LANGUAGE = "BBBBBBBBBB";
 
     private static final byte[] DEFAULT_PRONUNCIATION = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_PRONUNCIATION = TestUtil.createByteArray(1, "1");
@@ -71,7 +83,11 @@ class PronounceResourceIT {
      */
     public static Pronounce createEntity(EntityManager em) {
         Pronounce pronounce = new Pronounce()
+            .firstName(DEFAULT_FIRST_NAME)
+            .lastName(DEFAULT_LAST_NAME)
             .preferredName(DEFAULT_PREFERRED_NAME)
+            .country(DEFAULT_COUNTRY)
+            .language(DEFAULT_LANGUAGE)
             .pronunciation(DEFAULT_PRONUNCIATION)
             .pronunciationContentType(DEFAULT_PRONUNCIATION_CONTENT_TYPE);
         return pronounce;
@@ -85,7 +101,11 @@ class PronounceResourceIT {
      */
     public static Pronounce createUpdatedEntity(EntityManager em) {
         Pronounce pronounce = new Pronounce()
+            .firstName(UPDATED_FIRST_NAME)
+            .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
+            .country(UPDATED_COUNTRY)
+            .language(UPDATED_LANGUAGE)
             .pronunciation(UPDATED_PRONUNCIATION)
             .pronunciationContentType(UPDATED_PRONUNCIATION_CONTENT_TYPE);
         return pronounce;
@@ -128,7 +148,11 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeCreate + 1);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
+        assertThat(testPronounce.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(DEFAULT_PREFERRED_NAME);
+        assertThat(testPronounce.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testPronounce.getLanguage()).isEqualTo(DEFAULT_LANGUAGE);
         assertThat(testPronounce.getPronunciation()).isEqualTo(DEFAULT_PRONUNCIATION);
         assertThat(testPronounce.getPronunciationContentType()).isEqualTo(DEFAULT_PRONUNCIATION_CONTENT_TYPE);
     }
@@ -174,8 +198,16 @@ class PronounceResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(pronounce.getId().intValue()))
+            .jsonPath("$.[*].firstName")
+            .value(hasItem(DEFAULT_FIRST_NAME))
+            .jsonPath("$.[*].lastName")
+            .value(hasItem(DEFAULT_LAST_NAME))
             .jsonPath("$.[*].preferredName")
             .value(hasItem(DEFAULT_PREFERRED_NAME))
+            .jsonPath("$.[*].country")
+            .value(hasItem(DEFAULT_COUNTRY))
+            .jsonPath("$.[*].language")
+            .value(hasItem(DEFAULT_LANGUAGE))
             .jsonPath("$.[*].pronunciationContentType")
             .value(hasItem(DEFAULT_PRONUNCIATION_CONTENT_TYPE))
             .jsonPath("$.[*].pronunciation")
@@ -200,8 +232,16 @@ class PronounceResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(pronounce.getId().intValue()))
+            .jsonPath("$.firstName")
+            .value(is(DEFAULT_FIRST_NAME))
+            .jsonPath("$.lastName")
+            .value(is(DEFAULT_LAST_NAME))
             .jsonPath("$.preferredName")
             .value(is(DEFAULT_PREFERRED_NAME))
+            .jsonPath("$.country")
+            .value(is(DEFAULT_COUNTRY))
+            .jsonPath("$.language")
+            .value(is(DEFAULT_LANGUAGE))
             .jsonPath("$.pronunciationContentType")
             .value(is(DEFAULT_PRONUNCIATION_CONTENT_TYPE))
             .jsonPath("$.pronunciation")
@@ -230,7 +270,11 @@ class PronounceResourceIT {
         // Update the pronounce
         Pronounce updatedPronounce = pronounceRepository.findById(pronounce.getId()).block();
         updatedPronounce
+            .firstName(UPDATED_FIRST_NAME)
+            .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
+            .country(UPDATED_COUNTRY)
+            .language(UPDATED_LANGUAGE)
             .pronunciation(UPDATED_PRONUNCIATION)
             .pronunciationContentType(UPDATED_PRONUNCIATION_CONTENT_TYPE);
         PronounceDTO pronounceDTO = pronounceMapper.toDto(updatedPronounce);
@@ -248,7 +292,11 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
+        assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(UPDATED_PREFERRED_NAME);
+        assertThat(testPronounce.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testPronounce.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
         assertThat(testPronounce.getPronunciation()).isEqualTo(UPDATED_PRONUNCIATION);
         assertThat(testPronounce.getPronunciationContentType()).isEqualTo(UPDATED_PRONUNCIATION_CONTENT_TYPE);
     }
@@ -334,7 +382,9 @@ class PronounceResourceIT {
         partialUpdatedPronounce.setId(pronounce.getId());
 
         partialUpdatedPronounce
-            .preferredName(UPDATED_PREFERRED_NAME)
+            .firstName(UPDATED_FIRST_NAME)
+            .lastName(UPDATED_LAST_NAME)
+            .language(UPDATED_LANGUAGE)
             .pronunciation(UPDATED_PRONUNCIATION)
             .pronunciationContentType(UPDATED_PRONUNCIATION_CONTENT_TYPE);
 
@@ -351,7 +401,11 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
-        assertThat(testPronounce.getPreferredName()).isEqualTo(UPDATED_PREFERRED_NAME);
+        assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
+        assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
+        assertThat(testPronounce.getPreferredName()).isEqualTo(DEFAULT_PREFERRED_NAME);
+        assertThat(testPronounce.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testPronounce.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
         assertThat(testPronounce.getPronunciation()).isEqualTo(UPDATED_PRONUNCIATION);
         assertThat(testPronounce.getPronunciationContentType()).isEqualTo(UPDATED_PRONUNCIATION_CONTENT_TYPE);
     }
@@ -368,7 +422,11 @@ class PronounceResourceIT {
         partialUpdatedPronounce.setId(pronounce.getId());
 
         partialUpdatedPronounce
+            .firstName(UPDATED_FIRST_NAME)
+            .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
+            .country(UPDATED_COUNTRY)
+            .language(UPDATED_LANGUAGE)
             .pronunciation(UPDATED_PRONUNCIATION)
             .pronunciationContentType(UPDATED_PRONUNCIATION_CONTENT_TYPE);
 
@@ -385,7 +443,11 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
+        assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(UPDATED_PREFERRED_NAME);
+        assertThat(testPronounce.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testPronounce.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
         assertThat(testPronounce.getPronunciation()).isEqualTo(UPDATED_PRONUNCIATION);
         assertThat(testPronounce.getPronunciationContentType()).isEqualTo(UPDATED_PRONUNCIATION_CONTENT_TYPE);
     }

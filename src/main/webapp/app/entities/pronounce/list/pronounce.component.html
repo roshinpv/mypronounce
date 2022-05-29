@@ -33,7 +33,11 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="firstName"><span>First Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lastName"><span>Last Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="preferredName"><span>Preferred Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="country"><span>Country</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="language"><span>Language</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="pronunciation"><span>Pronunciation</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
@@ -43,7 +47,11 @@
           <td>
             <a [routerLink]="['/pronounce', pronounce.id, 'view']">{{ pronounce.id }}</a>
           </td>
+          <td>{{ pronounce.firstName }}</td>
+          <td>{{ pronounce.lastName }}</td>
           <td>{{ pronounce.preferredName }}</td>
+          <td>{{ pronounce.country }}</td>
+          <td>{{ pronounce.language }}</td>
           <td>
             <a *ngIf="pronounce.pronunciation" (click)="openFile(pronounce.pronunciation, pronounce.pronunciationContentType)">open</a>
             <span *ngIf="pronounce.pronunciation">{{ pronounce.pronunciationContentType }}, {{ byteSize(pronounce.pronunciation) }}</span>

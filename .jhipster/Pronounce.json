@@ -3,7 +3,23 @@
   "dto": "mapstruct",
   "fields": [
     {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "preferredName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "language",
       "fieldType": "String"
     },
     {

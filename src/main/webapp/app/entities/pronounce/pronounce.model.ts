@@ -1,6 +1,10 @@
 export interface IPronounce {
   id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
   preferredName?: string | null;
+  country?: string | null;
+  language?: string | null;
   pronunciationContentType?: string | null;
   pronunciation?: string | null;
 }
@@ -8,7 +12,11 @@ export interface IPronounce {
 export class Pronounce implements IPronounce {
   constructor(
     public id?: number,
+    public firstName?: string | null,
+    public lastName?: string | null,
     public preferredName?: string | null,
+    public country?: string | null,
+    public language?: string | null,
     public pronunciationContentType?: string | null,
     public pronunciation?: string | null
   ) {}

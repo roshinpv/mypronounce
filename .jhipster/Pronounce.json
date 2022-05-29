@@ -1,0 +1,21 @@
+{
+  "changelogDate": "20220529045026",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "preferredName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pronunciation",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "Pronounce",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

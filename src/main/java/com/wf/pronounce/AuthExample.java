@@ -1,7 +1,6 @@
 package com.wf.pronounce;
 
 
-
 import com.google.api.gax.paging.Page;
 import com.google.auth.appengine.AppEngineCredentials;
 import com.google.auth.oauth2.ComputeEngineCredentials;
@@ -36,7 +35,7 @@ public class AuthExample {
         // You can specify a credential file by providing a path to GoogleCredentials.
         // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
         GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+            .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 
         System.out.println("Buckets:");

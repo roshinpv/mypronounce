@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "application",
+      "type": "com.wf.pronounce.config.ApplicationProperties",
+      "sourceType": "com.wf.pronounce.config.ApplicationProperties"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

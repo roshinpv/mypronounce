@@ -55,6 +55,7 @@ public interface PronounceService {
      * @return the entity.
      */
     Mono<PronounceDTO> findOne(Long id);
+    Mono<PronounceDTO> findOne(String id);
 
     /**
      * Delete the "id" pronounce.

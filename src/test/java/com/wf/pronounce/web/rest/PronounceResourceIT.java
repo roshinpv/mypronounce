@@ -35,6 +35,9 @@ import org.springframework.util.Base64Utils;
 @WithMockUser
 class PronounceResourceIT {
 
+    private static final String DEFAULT_LOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_LOGIN = "BBBBBBBBBB";
+
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
 
@@ -83,6 +86,7 @@ class PronounceResourceIT {
      */
     public static Pronounce createEntity(EntityManager em) {
         Pronounce pronounce = new Pronounce()
+            .login(DEFAULT_LOGIN)
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .preferredName(DEFAULT_PREFERRED_NAME)
@@ -101,6 +105,7 @@ class PronounceResourceIT {
      */
     public static Pronounce createUpdatedEntity(EntityManager em) {
         Pronounce pronounce = new Pronounce()
+            .login(UPDATED_LOGIN)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
@@ -148,6 +153,7 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeCreate + 1);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getLogin()).isEqualTo(DEFAULT_LOGIN);
         assertThat(testPronounce.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testPronounce.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(DEFAULT_PREFERRED_NAME);
@@ -198,6 +204,8 @@ class PronounceResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(pronounce.getId().intValue()))
+            .jsonPath("$.[*].login")
+            .value(hasItem(DEFAULT_LOGIN))
             .jsonPath("$.[*].firstName")
             .value(hasItem(DEFAULT_FIRST_NAME))
             .jsonPath("$.[*].lastName")
@@ -232,6 +240,8 @@ class PronounceResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(pronounce.getId().intValue()))
+            .jsonPath("$.login")
+            .value(is(DEFAULT_LOGIN))
             .jsonPath("$.firstName")
             .value(is(DEFAULT_FIRST_NAME))
             .jsonPath("$.lastName")
@@ -270,6 +280,7 @@ class PronounceResourceIT {
         // Update the pronounce
         Pronounce updatedPronounce = pronounceRepository.findById(pronounce.getId()).block();
         updatedPronounce
+            .login(UPDATED_LOGIN)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
@@ -292,6 +303,7 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getLogin()).isEqualTo(UPDATED_LOGIN);
         assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(UPDATED_PREFERRED_NAME);
@@ -381,12 +393,7 @@ class PronounceResourceIT {
         Pronounce partialUpdatedPronounce = new Pronounce();
         partialUpdatedPronounce.setId(pronounce.getId());
 
-        partialUpdatedPronounce
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .language(UPDATED_LANGUAGE)
-            .pronunciation(UPDATED_PRONUNCIATION)
-            .pronunciationContentType(UPDATED_PRONUNCIATION_CONTENT_TYPE);
+        partialUpdatedPronounce.login(UPDATED_LOGIN).firstName(UPDATED_FIRST_NAME).country(UPDATED_COUNTRY).language(UPDATED_LANGUAGE);
 
         webTestClient
             .patch()
@@ -401,13 +408,14 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getLogin()).isEqualTo(UPDATED_LOGIN);
         assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
-        assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
+        assertThat(testPronounce.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(DEFAULT_PREFERRED_NAME);
-        assertThat(testPronounce.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testPronounce.getCountry()).isEqualTo(UPDATED_COUNTRY);
         assertThat(testPronounce.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
-        assertThat(testPronounce.getPronunciation()).isEqualTo(UPDATED_PRONUNCIATION);
-        assertThat(testPronounce.getPronunciationContentType()).isEqualTo(UPDATED_PRONUNCIATION_CONTENT_TYPE);
+        assertThat(testPronounce.getPronunciation()).isEqualTo(DEFAULT_PRONUNCIATION);
+        assertThat(testPronounce.getPronunciationContentType()).isEqualTo(DEFAULT_PRONUNCIATION_CONTENT_TYPE);
     }
 
     @Test
@@ -422,6 +430,7 @@ class PronounceResourceIT {
         partialUpdatedPronounce.setId(pronounce.getId());
 
         partialUpdatedPronounce
+            .login(UPDATED_LOGIN)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .preferredName(UPDATED_PREFERRED_NAME)
@@ -443,6 +452,7 @@ class PronounceResourceIT {
         List<Pronounce> pronounceList = pronounceRepository.findAll().collectList().block();
         assertThat(pronounceList).hasSize(databaseSizeBeforeUpdate);
         Pronounce testPronounce = pronounceList.get(pronounceList.size() - 1);
+        assertThat(testPronounce.getLogin()).isEqualTo(UPDATED_LOGIN);
         assertThat(testPronounce.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testPronounce.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testPronounce.getPreferredName()).isEqualTo(UPDATED_PREFERRED_NAME);

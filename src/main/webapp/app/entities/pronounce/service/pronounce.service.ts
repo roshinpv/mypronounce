@@ -36,6 +36,10 @@ export class PronounceService {
     return this.http.get<IPronounce>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  findByLogin(login: string): Observable<EntityResponseType> {
+      return this.http.get<IPronounce>(`${this.resourceUrl}/user/${login}`, { observe: 'response' });
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IPronounce[]>(this.resourceUrl, { params: options, observe: 'response' });

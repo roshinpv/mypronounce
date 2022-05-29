@@ -25,6 +25,7 @@ public interface PronounceRepository extends ReactiveCrudRepository<Pronounce, L
 
     @Override
     Mono<Pronounce> findById(Long id);
+    Mono<Pronounce> findByLogin(String id);
 
     @Override
     Mono<Void> deleteById(Long id);

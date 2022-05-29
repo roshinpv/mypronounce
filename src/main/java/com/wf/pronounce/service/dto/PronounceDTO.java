@@ -11,6 +11,8 @@ public class PronounceDTO implements Serializable {
 
     private Long id;
 
+    private String login;
+
     private String firstName;
 
     private String lastName;
@@ -32,6 +34,14 @@ public class PronounceDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -116,6 +126,7 @@ public class PronounceDTO implements Serializable {
     public String toString() {
         return "PronounceDTO{" +
             "id=" + getId() +
+            ", login='" + getLogin() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", preferredName='" + getPreferredName() + "'" +

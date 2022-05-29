@@ -3,6 +3,10 @@
   "dto": "mapstruct",
   "fields": [
     {
+      "fieldName": "login",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "firstName",
       "fieldType": "String"
     },

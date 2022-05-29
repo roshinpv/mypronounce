@@ -18,6 +18,9 @@ public class Pronounce implements Serializable {
     @Column("id")
     private Long id;
 
+    @Column("login")
+    private String login;
+
     @Column("first_name")
     private String firstName;
 
@@ -52,6 +55,19 @@ public class Pronounce implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return this.login;
+    }
+
+    public Pronounce login(String login) {
+        this.setLogin(login);
+        return this;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -169,6 +185,7 @@ public class Pronounce implements Serializable {
     public String toString() {
         return "Pronounce{" +
             "id=" + getId() +
+            ", login='" + getLogin() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", preferredName='" + getPreferredName() + "'" +

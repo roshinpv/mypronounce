@@ -33,6 +33,7 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="login"><span>Login</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="firstName"><span>First Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="lastName"><span>Last Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="preferredName"><span>Preferred Name</span> <fa-icon icon="sort"></fa-icon></th>
@@ -47,6 +48,7 @@
           <td>
             <a [routerLink]="['/pronounce', pronounce.id, 'view']">{{ pronounce.id }}</a>
           </td>
+          <td>{{ pronounce.login }}</td>
           <td>{{ pronounce.firstName }}</td>
           <td>{{ pronounce.lastName }}</td>
           <td>{{ pronounce.preferredName }}</td>

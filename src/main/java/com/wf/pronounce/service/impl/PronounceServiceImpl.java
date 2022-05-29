@@ -77,6 +77,13 @@ public class PronounceServiceImpl implements PronounceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Mono<PronounceDTO> findOne(String login) {
+        log.debug("Request to get Pronounce : {}", login);
+        return pronounceRepository.findByLogin(login).map(pronounceMapper::toDto);
+    }
+
+    @Override
     public Mono<Void> delete(Long id) {
         log.debug("Request to delete Pronounce : {}", id);
         return pronounceRepository.deleteById(id);

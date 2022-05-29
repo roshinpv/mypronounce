@@ -20,6 +20,7 @@ export class PronounceUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    login: [],
     firstName: [],
     lastName: [],
     preferredName: [],
@@ -94,6 +95,7 @@ export class PronounceUpdateComponent implements OnInit {
   protected updateForm(pronounce: IPronounce): void {
     this.editForm.patchValue({
       id: pronounce.id,
+      login: pronounce.login,
       firstName: pronounce.firstName,
       lastName: pronounce.lastName,
       preferredName: pronounce.preferredName,
@@ -108,6 +110,7 @@ export class PronounceUpdateComponent implements OnInit {
     return {
       ...new Pronounce(),
       id: this.editForm.get(['id'])!.value,
+      login: this.editForm.get(['login'])!.value,
       firstName: this.editForm.get(['firstName'])!.value,
       lastName: this.editForm.get(['lastName'])!.value,
       preferredName: this.editForm.get(['preferredName'])!.value,

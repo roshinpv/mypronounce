@@ -227,4 +227,14 @@ public class PronounceResource {
                     .build()
             );
     }
+
+
+    @GetMapping("/pronounces/user/{login}")
+    public Mono<ResponseEntity<PronounceDTO>> getPronounce(@PathVariable String login) {
+        log.debug("REST request to get Pronounce : {}", login);
+        Mono<PronounceDTO> pronounceDTO = pronounceService.findOne(login);
+        return ResponseUtil.wrapOrNotFound(pronounceDTO);
+    }
+
+
 }

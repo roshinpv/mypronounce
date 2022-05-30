@@ -14,16 +14,16 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -241,11 +241,12 @@ public class PronounceResource {
 
 
     /*@GetMapping("/pronounces/audio/")
-    public Mono<ServerResponse> getAudio(@RequestParam String name , @RequestParam String country ) {
+    public Mono<String> getAudio(ServerHttpResponse response , @RequestParam String name , @RequestParam String country ) {
 
+        ZeroCopyHttpOutputMessage zeroCopyResponse = (ZeroCopyHttpOutputMessage) response;
+        zeroCopyResponse.
 
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(pronounceService.generateAudio(name, country)));
+        res.
 
     }*/
 

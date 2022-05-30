@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,11 +6,13 @@ import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
-import {PronounceService} from  'app/entities/pronounce/service/pronounce.service';
-import {Pronounce} from  'app/entities/pronounce/pronounce.model';
+import { PronounceService } from 'app/entities/pronounce/service/pronounce.service';
+import { Pronounce } from 'app/entities/pronounce/pronounce.model';
 import { HttpResponse } from '@angular/common/http';
 import { DataUtils } from 'app/core/util/data-util.service';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 
 @Component({
   selector: 'jhi-home',
@@ -20,31 +22,74 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   pronounce: Pronounce | null = null;
-  public audioUrl  = "" ;
+  mediaRecorder: any | null = null;
+  audioChunks: any = [];
+  audioFiles: any ;
+  public audioUrl = "";
+
+
+
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(public domSanitizer :DomSanitizer  , protected dataUtils: DataUtils, private accountService: AccountService, private pronounceService:  PronounceService, private router: Router) {}
+  constructor(private cd: ChangeDetectorRef,  public domSanitizer: DomSanitizer, protected dataUtils: DataUtils, private accountService: AccountService, private pronounceService: PronounceService, private router: Router) { }
 
   ngOnInit(): void {
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => {
-          this.account = account;
-          this.pronounceService.findByLogin (account!.login)
+        this.account = account;
+        this.pronounceService.findByLogin(account!.login)
           .subscribe((res: HttpResponse<Pronounce>) => {
             this.pronounce = res.body;
-            this.audioUrl =  `data:audio/mpeg;base64,` + String(this.pronounce!.pronunciation) ;
-        
-            alert(this.audioUrl);
+            this.audioUrl = `data:audio/mpeg;base64,` + String(this.pronounce!.pronunciation);
+
           });
-            
+
       });
 
+    navigator.mediaDevices.getUserMedia(
+      { audio: true }).then
+      (stream => {
+
+        
+
+        this.mediaRecorder = new MediaRecorder(stream);
+
+        this.mediaRecorder.ondataavailable = (e: any) => {
+          
+          this.audioChunks.push(e.data);
+        }
 
 
-}
+        this.mediaRecorder.onstop = (e: any) => {
+
+          const blob = new Blob(this.audioChunks, { type: 'audio/mpeg; codecs=opus' });
+          const file = new File([blob], "name");
+          this.audioChunks = [];
+          const audioURL = URL.createObjectURL(blob);
+          // audio.src = audioURL;
+          this.audioFiles  = this.domSanitizer.bypassSecurityTrustUrl(audioURL);
+          alert(file.name);
+          this.cd.detectChanges();
+
+        }
+      })
+      .catch(e => { alert(e); });
+
+  }
+
+  stop(): void {
+    this.mediaRecorder.stop();
+
+    alert("Stopped");
+  }
+  start(): void {
+    this.mediaRecorder.start();
+    alert("started");
+  }
+
 
   login(): void {
     this.router.navigate(['/login']);
@@ -63,8 +108,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dataUtils.openFile(base64String, contentType);
   }
 
-  cleanData(data: string): string{
+  cleanData(data: string): string {
     alert("");
     return String(this.domSanitizer.bypassSecurityTrustUrl("data:audio/mpeg;base64," + data));
   }
+
+
+
 }

@@ -67,7 +67,20 @@
 
 
 
+
+
         </div>
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="true">
+      
+        <a class="alert-link" (click)="start()">Start</a>
+
+        <a class="alert-link" (click)="stop()">Stop</a>
+        <audio controls="controls" *ngIf="audioFiles">
+          <source [src]="audioFiles" type="audio/mpeg"/>
+
+        </audio>
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
@@ -79,6 +92,7 @@
       </div>
 
 
+      
 
 
 

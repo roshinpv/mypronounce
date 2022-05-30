@@ -1,5 +1,6 @@
 package com.wf.pronounce.web.rest;
 
+import com.google.protobuf.ByteString;
 import com.wf.pronounce.repository.PronounceRepository;
 import com.wf.pronounce.service.PronounceService;
 import com.wf.pronounce.service.dto.PronounceDTO;
@@ -22,6 +23,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
@@ -235,6 +238,16 @@ public class PronounceResource {
         Mono<PronounceDTO> pronounceDTO = pronounceService.findOne(login);
         return ResponseUtil.wrapOrNotFound(pronounceDTO);
     }
+
+
+    /*@GetMapping("/pronounces/audio/")
+    public Mono<ServerResponse> getAudio(@RequestParam String name , @RequestParam String country ) {
+
+
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(pronounceService.generateAudio(name, country)));
+
+    }*/
 
 
 }

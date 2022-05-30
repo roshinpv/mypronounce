@@ -1,5 +1,6 @@
 package com.wf.pronounce.service;
 
+import com.google.protobuf.ByteString;
 import com.wf.pronounce.service.dto.PronounceDTO;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
@@ -56,6 +57,8 @@ public interface PronounceService {
      */
     Mono<PronounceDTO> findOne(Long id);
     Mono<PronounceDTO> findOne(String id);
+    byte[] generateAudio(String  name , String country);
+
 
     /**
      * Delete the "id" pronounce.
@@ -64,4 +67,6 @@ public interface PronounceService {
      * @return a Mono to signal the deletion
      */
     Mono<Void> delete(Long id);
+
+
 }

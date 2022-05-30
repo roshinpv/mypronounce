@@ -1,5 +1,7 @@
 package com.wf.pronounce.service.impl;
 
+import com.google.cloud.texttospeech.v1.*;
+import com.google.protobuf.ByteString;
 import com.wf.pronounce.domain.Pronounce;
 import com.wf.pronounce.repository.PronounceRepository;
 import com.wf.pronounce.service.PronounceService;
@@ -34,23 +36,24 @@ public class PronounceServiceImpl implements PronounceService {
     @Override
     public Mono<PronounceDTO> save(PronounceDTO pronounceDTO) {
         log.debug("Request to save Pronounce : {}", pronounceDTO);
+        pronounceDTO = createPronounce(pronounceDTO);
         return pronounceRepository.save(pronounceMapper.toEntity(pronounceDTO)).map(pronounceMapper::toDto);
     }
 
     @Override
     public Mono<PronounceDTO> update(PronounceDTO pronounceDTO) {
         log.debug("Request to save Pronounce : {}", pronounceDTO);
+        pronounceDTO = createPronounce(pronounceDTO);
         return pronounceRepository.save(pronounceMapper.toEntity(pronounceDTO)).map(pronounceMapper::toDto);
     }
 
     @Override
     public Mono<PronounceDTO> partialUpdate(PronounceDTO pronounceDTO) {
         log.debug("Request to partially update Pronounce : {}", pronounceDTO);
-
         return pronounceRepository
             .findById(pronounceDTO.getId())
             .map(existingPronounce -> {
-                pronounceMapper.partialUpdate(existingPronounce, pronounceDTO);
+                pronounceMapper.partialUpdate(existingPronounce, createPronounce(pronounceDTO));
 
                 return existingPronounce;
             })
@@ -88,4 +91,51 @@ public class PronounceServiceImpl implements PronounceService {
         log.debug("Request to delete Pronounce : {}", id);
         return pronounceRepository.deleteById(id);
     }
+
+
+    private PronounceDTO createPronounce(PronounceDTO pronounceDTO) {
+
+        String text = pronounceDTO.getPreferredName();
+        PronounceDTO tempPronounceDTO = null ;
+        if (pronounceDTO.getPronunciation() == null) {
+            if (text == null || text.isBlank()) {
+                text = pronounceDTO.getFirstName() + " " + pronounceDTO.getLastName();
+            }
+        }
+
+        pronounceDTO.setPronunciationContentType("audio/mpeg");
+        pronounceDTO.setPronunciation(generateAudio(text, "IN"));
+
+        return pronounceDTO;
+    }
+
+    @Override
+    public byte[] generateAudio(String name, String country) {
+
+        ByteString audioContents = null;
+
+        if (name != null) {
+            try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
+                SynthesisInput input = SynthesisInput.newBuilder().setText(name).build();
+                VoiceSelectionParams voice =
+                    VoiceSelectionParams.newBuilder()
+                        .setLanguageCode("en-IN")
+                        .setName("en-IN-Standard-C")
+                        .build();
+                AudioConfig audioConfig =
+                    AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3).build();
+                SynthesizeSpeechResponse response =
+                    textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
+                audioContents = response.getAudioContent();
+
+            }
+            catch (Exception e) {
+                System.out.println("here 1" + e.getMessage());
+            }
+
+        }
+        return audioContents.toByteArray();
+    }
+
+
 }

@@ -1,7 +1,7 @@
 <nav data-cy="navbar" class="navbar navbar-light navbar-expand-md bg-light">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span class="logo-img"></span>
+     <!-- <span class="logo-img"></span>-->
       <span class="navbar-title">Pronounce</span>
       <!--<span class="navbar-version">{{ version }}</span>-->
     </a>
@@ -43,7 +43,7 @@
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-            <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <li >
               <a
                 class="dropdown-item"
                 routerLink="pronounce"

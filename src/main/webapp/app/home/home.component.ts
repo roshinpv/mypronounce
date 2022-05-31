@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   pronounce: Pronounce | null = null;
   mediaRecorder: any | null = null;
   audioChunks: any = [];
-  audioFiles: any ;
+  audioFiles: any;
   public audioUrl = "";
 
 
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private cd: ChangeDetectorRef,  public domSanitizer: DomSanitizer, protected dataUtils: DataUtils, private accountService: AccountService, private pronounceService: PronounceService, private router: Router) { }
+  constructor(private cd: ChangeDetectorRef, public domSanitizer: DomSanitizer, protected dataUtils: DataUtils, private accountService: AccountService, private pronounceService: PronounceService, private router: Router) { }
 
   ngOnInit(): void {
     this.accountService
@@ -53,12 +53,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       { audio: true }).then
       (stream => {
 
-        
+
 
         this.mediaRecorder = new MediaRecorder(stream);
 
         this.mediaRecorder.ondataavailable = (e: any) => {
-          
+
           this.audioChunks.push(e.data);
         }
 
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.audioChunks = [];
           const audioURL = URL.createObjectURL(blob);
           // audio.src = audioURL;
-          this.audioFiles  = this.domSanitizer.bypassSecurityTrustUrl(audioURL);
+          this.audioFiles = this.domSanitizer.bypassSecurityTrustUrl(audioURL);
           alert(file.name);
           this.cd.detectChanges();
 

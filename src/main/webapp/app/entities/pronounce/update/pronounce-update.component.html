@@ -1,3 +1,4 @@
+<h1>Test</h1>
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
@@ -52,6 +53,16 @@
           <label class="form-label" for="field_pronunciation">Pronunciation</label>
           <div>
             <div *ngIf="editForm.get('pronunciation')!.value" class="form-text text-danger clearfix">
+
+              <a class="alert-link" (click)="start()">Start</a>
+
+        <a class="alert-link" (click)="stop()">Stop</a>
+        <a class="alert-link" (click)="use()">Use</a>
+        <audio controls="controls" *ngIf="audioFiles">
+          <source [src]="audioFiles" type="audio/mpeg"/>
+
+        </audio>
+
               <a
                 class="pull-start"
                 (click)="openFile(editForm.get('pronunciation')!.value, editForm.get('pronunciationContentType')!.value)"

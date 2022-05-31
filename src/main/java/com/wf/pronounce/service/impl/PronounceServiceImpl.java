@@ -101,10 +101,12 @@ public class PronounceServiceImpl implements PronounceService {
             if (text == null || text.isBlank()) {
                 text = pronounceDTO.getFirstName() + " " + pronounceDTO.getLastName();
             }
+
+            pronounceDTO.setPronunciationContentType("audio/mpeg");
+            pronounceDTO.setPronunciation(generateAudio(text, "IN"));
         }
 
-        pronounceDTO.setPronunciationContentType("audio/mpeg");
-        pronounceDTO.setPronunciation(generateAudio(text, "IN"));
+
 
         return pronounceDTO;
     }
